@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ECE Reference</title>
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="{{ "/assets/css/style.css" | url }}">
 <style>
 body { overflow-x: hidden; }
 </style>
@@ -15,7 +15,7 @@ body { overflow-x: hidden; }
     <a class="nav-logo" href="index.html">ECE·REF</a>
     <span style="font-family:var(--font-mono);font-size:10px;color:var(--border2)">|</span>
     <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted)" id="nav-status">GT Stack</span>
-    <a href="/math/" style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--amber);text-decoration:none;display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid rgba(245,166,35,.3);border-radius:6px;background:rgba(245,166,35,.06)">∑ Math</a>
+    <a href="{{ "/math/" | url }}" style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--amber);text-decoration:none;display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid rgba(245,166,35,.3);border-radius:6px;background:rgba(245,166,35,.06)">∑ Math</a>
     <button class="btn" style="padding:4px 10px;font-size:11px" onclick="reopenPicker()">courses</button>
   </div>
 </nav>
@@ -117,10 +117,11 @@ body { overflow-x: hidden; }
 
 </div>
 
-<script src="/assets/js/site.js"></script>
+<script src="{{ "/assets/js/site.js" | url }}"></script>
 <script>
   // Data injected server-side from _data/chain.js and _data/site.js —
   // single source of truth, no separate hardcoded JS file to keep in sync.
+  const PATH_PREFIX = "{{ "/" | url }}";
   const COURSES = {{ site.courses | dump | safe }};
   const TIERS = {{ site.tiers | dump | safe }};
   const FOUNDATIONS_CHAIN = {{ chain | dump | safe }}.map(t => ({ ...t, id: t.slug }));
@@ -227,7 +228,7 @@ function buildBBNodes() {
       const el = document.createElement(b.built ? 'a' : 'div');
       el.className = 'block-card' + (b.built ? ' built' : ' unbuilt') + (!unlocked ? ' locked-by-course' : '');
       el.style.setProperty('--bc', tierId === 'logic' ? 'var(--purple)' : 'var(--accent)');
-      if (b.built) el.href = `/${b.id}/`;
+      if (b.built) el.href = `${PATH_PREFIX}${b.id}/`;
       el.onclick = (e) => {
         e.stopPropagation();
         if (!b.built) { e.preventDefault(); showToast(`${b.name} — coming soon`); }
@@ -278,7 +279,7 @@ function handleBBClick(e) {
     expandBB();
     return;
   }
-  window.location.href = '/gates/';
+  window.location.href = `${PATH_PREFIX}gates/`;
 }
 
 function showComingSoonMb(name) { showToast(`${name} — coming soon`); }

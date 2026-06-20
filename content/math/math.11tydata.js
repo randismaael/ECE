@@ -3,6 +3,6 @@ module.exports = {
   eleventyComputed: {
     permalink: (data) => `/math/${data.page.fileSlug}/`,
     slug: (data) => data.page.fileSlug,
-    simPath: (data) => `/content/math/${data.page.fileSlug}.sim.js`,
+    simPath: (data) => `${(process.env.PATH_PREFIX || "/").replace(/\/$/, "")}/content/math/${data.page.fileSlug}.sim.js`,
   },
 };

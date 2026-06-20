@@ -6,22 +6,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ title }} — ECE Ref</title>
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="{{ "/assets/css/style.css" | url }}">
 </head>
 <body>
 <nav>
   <div style="display:flex;align-items:center;gap:12px;padding:0 20px;height:48px;background:var(--bg1);border-bottom:1px solid var(--border)">
-    <a class="nav-logo" href="/">ECE·REF</a>
+    <a class="nav-logo" href="{{ "/" | url }}">ECE·REF</a>
     <span style="font-family:var(--font-mono);font-size:10px;color:var(--border2)">|</span>
     <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">Building Blocks</span>
-    <a href="/math/" style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--amber);text-decoration:none;display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid rgba(245,166,35,.3);border-radius:6px;background:rgba(245,166,35,.06)">∑ Math reference</a>
+    <a href="{{ "/math/" | url }}" style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--amber);text-decoration:none;display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid rgba(245,166,35,.3);border-radius:6px;background:rgba(245,166,35,.06)">∑ Math reference</a>
   </div>
 </nav>
 
 <div class="topic-wrap">
   <div class="topic-header">
     <div class="topic-breadcrumb">
-      <a href="/">Building Blocks</a>
+      <a href="{{ "/" | url }}">Building Blocks</a>
       <span>›</span>
       <span>{{ title }}</span>
     </div>
@@ -63,13 +63,13 @@
   {% endif %}
 </div>
 
-<script src="/assets/js/site.js"></script>
+<script src="{{ "/assets/js/site.js" | url }}"></script>
 {% if hasSim %}<script src="{{ simPath }}"></script>{% endif %}
 {% set adjacent = chain | chainAdjacent(order) %}
 <script>
   window.CHAIN_DATA = {
     currentId: "{{ slug }}",
-    basePath: "/",
+    basePath: "{{ "/" | url }}",
     chain: {{ chain | dump | safe }},
     prev: {{ adjacent.prev | dump | safe }},
     next: {{ adjacent.next | dump | safe }},

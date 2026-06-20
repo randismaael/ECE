@@ -42,7 +42,7 @@ function buildRail(currentId, chain, basePath) {
 
   const footer = document.createElement('div');
   footer.className = 'rail-footer';
-  footer.innerHTML = `<a class="rail-back" href="/">← all groups</a>`;
+  footer.innerHTML = `<a class="rail-back" href="${basePath}">← all groups</a>`;
 
   rail.appendChild(header);
   rail.appendChild(list);
@@ -88,7 +88,7 @@ function buildLayerArrows(currentId, prev, next, basePath) {
   const downBar = document.createElement(prev ? (prev.built ? 'a' : 'div') : 'a');
   downBar.className = 'layer-arrow down' + (prev && !prev.built ? ' disabled' : '');
   if (prev && prev.built) downBar.href = `${basePath}${prev.slug}/`;
-  else if (!prev) downBar.href = '/';
+  else if (!prev) downBar.href = basePath;
   downBar.innerHTML = prev
     ? `<span class="layer-arrow-text"><span class="layer-arrow-label">down — more basic</span><span class="layer-arrow-name">${prev.name}</span></span><span class="layer-arrow-icon">↓</span>`
     : `<span class="layer-arrow-text"><span class="layer-arrow-label">⏚ ground</span><span class="layer-arrow-name">back to the stack</span></span><span class="layer-arrow-icon">↓</span>`;
