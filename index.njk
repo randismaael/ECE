@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECE Reference</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+body { overflow-x: hidden; }
+</style>
+</head>
+<body>
+<nav>
+  <div style="display:flex;align-items:center;gap:12px;padding:0 20px;height:48px;background:var(--bg1);border-bottom:1px solid var(--border)">
+    <a class="nav-logo" href="index.html">ECE·REF</a>
+    <span style="font-family:var(--font-mono);font-size:10px;color:var(--border2)">|</span>
+    <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted)" id="nav-status">GT Stack</span>
+    <a href="/math/" style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--amber);text-decoration:none;display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid rgba(245,166,35,.3);border-radius:6px;background:rgba(245,166,35,.06)">∑ Math</a>
+    <button class="btn" style="padding:4px 10px;font-size:11px" onclick="reopenPicker()">courses</button>
+  </div>
+</nav>
+
+<!-- COURSE PICKER (landing, sequential reveal) -->
+<div class="picker-wrap" id="picker">
+  <div class="picker-eyebrow">Georgia Tech · ECE Stack</div>
+  <div class="picker-title">Which courses have you taken?</div>
+  <div class="picker-sub">This unlocks the relevant tiers in the stack below. You can change this anytime — everything stays visible, just marked by what you've covered.</div>
+
+  <div class="picker-courses" id="picker-courses"></div>
+
+  <button class="picker-cta" id="picker-cta" onclick="revealScene()">Continue</button>
+  <div class="picker-skip" onclick="skipPicker()">skip — show me everything</div>
+</div>
+
+<!-- MAIN SCENE: motherboard + vertical stack -->
+<div class="main-scene" id="main-scene">
+
+  <div class="mb-section">
+    <div class="mb-section-label">your machine — click a part to jump there</div>
+    <svg id="mb-svg" width="100%" viewBox="0 0 820 360" style="max-width:820px;display:block;margin:0 auto">
+      <!-- PCB background -->
+      <rect x="10" y="10" width="800" height="340" rx="14" fill="#0e1a12" stroke="#1a3020" stroke-width="1.5"/>
+      <g stroke="#1a3020" stroke-width=".5" opacity=".5">
+        <line x1="28" y1="10" x2="28" y2="350"/>
+        <line x1="792" y1="10" x2="792" y2="350"/>
+      </g>
+      <text x="410" y="34" font-family="monospace" font-size="11" fill="#3a6a3a" text-anchor="middle" letter-spacing="2">MOTHERBOARD</text>
+
+      <!-- CPU block -->
+      <g class="mb-clickable" onclick="scrollToBB()" style="cursor:pointer">
+        <rect x="60" y="60" width="280" height="240" rx="10" fill="#0d1f0d" stroke="#3ecf8e" stroke-width="1.5"/>
+        <text x="200" y="90" font-family="monospace" font-size="13" fill="#3ecf8e" text-anchor="middle" letter-spacing="2">CPU</text>
+        <!-- mini blocks inside representing the foundation tiers -->
+        <rect x="80" y="110" width="105" height="48" rx="5" fill="#0a1a0a" stroke="#4f8ef7" stroke-width="1" opacity=".85"/>
+        <text x="132" y="130" font-family="monospace" font-size="9" fill="#4f8ef7" text-anchor="middle">SWITCHES</text>
+        <text x="132" y="142" font-family="monospace" font-size="8" fill="#4f8ef7" opacity=".6" text-anchor="middle">physical</text>
+        <rect x="195" y="110" width="125" height="48" rx="5" fill="#0a1a0a" stroke="#4f8ef7" stroke-width="1" opacity=".85"/>
+        <text x="257" y="130" font-family="monospace" font-size="9" fill="#4f8ef7" text-anchor="middle">MOSFETs / CMOS</text>
+        <text x="257" y="142" font-family="monospace" font-size="8" fill="#4f8ef7" opacity=".6" text-anchor="middle">physical</text>
+        <rect x="80" y="168" width="105" height="48" rx="5" fill="#0a1a0a" stroke="#9b7ff4" stroke-width="1" opacity=".85"/>
+        <text x="132" y="188" font-family="monospace" font-size="9" fill="#9b7ff4" text-anchor="middle">GATES</text>
+        <text x="132" y="200" font-family="monospace" font-size="8" fill="#9b7ff4" opacity=".6" text-anchor="middle">logic</text>
+        <rect x="195" y="168" width="125" height="48" rx="5" fill="#0a1a0a" stroke="#9b7ff4" stroke-width="1" opacity=".85"/>
+        <text x="257" y="188" font-family="monospace" font-size="9" fill="#9b7ff4" text-anchor="middle">COMB / SEQ</text>
+        <text x="257" y="200" font-family="monospace" font-size="8" fill="#9b7ff4" opacity=".6" text-anchor="middle">logic</text>
+        <rect x="80" y="226" width="240" height="40" rx="5" fill="#0a1a0a" stroke="#363d4d" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>
+        <text x="200" y="250" font-family="monospace" font-size="9" fill="#6b7385" text-anchor="middle">ALU · DATAPATH · PIPELINE (soon)</text>
+        <text x="200" y="282" font-family="monospace" font-size="9" fill="#3ecf8e" opacity=".5" text-anchor="middle">[ click to jump into the stack ]</text>
+      </g>
+
+      <!-- Bus -->
+      <line x1="340" y1="160" x2="480" y2="160" stroke="#2a5a2a" stroke-width="1" stroke-dasharray="4 3"/>
+
+      <!-- Memory block -->
+      <g class="mb-clickable" onclick="showComingSoonMb('Memory hierarchy')" style="cursor:pointer">
+        <rect x="480" y="60" width="280" height="160" rx="10" fill="#0d1a1f" stroke="#4fc4cf" stroke-width="1.5" opacity=".7"/>
+        <text x="620" y="88" font-family="monospace" font-size="12" fill="#4fc4cf" text-anchor="middle" letter-spacing="2">MEMORY</text>
+        <rect x="500" y="105" width="100" height="46" rx="5" fill="#0a1a1a" stroke="#4fc4cf" stroke-width="1" opacity=".7"/>
+        <text x="550" y="126" font-family="monospace" font-size="9" fill="#4fc4cf" text-anchor="middle">CACHE</text>
+        <text x="550" y="138" font-family="monospace" font-size="7.5" fill="#4fc4cf" opacity=".5" text-anchor="middle">soon</text>
+        <line x1="550" y1="151" x2="550" y2="168" stroke="#2a5a4a" stroke-width="1"/>
+        <rect x="500" y="168" width="100" height="38" rx="5" fill="#0a1a1a" stroke="#363d4d" stroke-width="1" stroke-dasharray="3 3" opacity=".6"/>
+        <text x="550" y="190" font-family="monospace" font-size="9" fill="#6b7385" text-anchor="middle">DISK</text>
+        <text x="700" y="140" font-family="monospace" font-size="8" fill="#4fc4cf" opacity=".4" text-anchor="middle">[ coming soon ]</text>
+      </g>
+
+      <!-- + others -->
+      <g class="mb-clickable" onclick="showComingSoonMb('System / I-O')" style="cursor:pointer">
+        <rect x="480" y="234" width="280" height="66" rx="10" fill="#1f0d0d" stroke="#f08060" stroke-width="1" opacity=".6"/>
+        <text x="620" y="260" font-family="monospace" font-size="11" fill="#f08060" text-anchor="middle">+ OTHERS</text>
+        <text x="620" y="276" font-family="monospace" font-size="8.5" fill="#f08060" opacity=".6" text-anchor="middle">I/O · interrupts · privilege — soon</text>
+      </g>
+    </svg>
+
+    <div class="scroll-cue">
+      <span>scroll down</span>
+      <span>↓</span>
+    </div>
+  </div>
+
+  <div class="stack-section">
+    <div class="bb-block" id="bb-block" onmouseenter="scheduleExpandBB()" onmouseleave="cancelExpandBB()" onclick="handleBBClick(event)">
+      <div class="bb-collapsed" id="bb-collapsed">
+        <div class="bb-collapsed-icon">▤</div>
+        <div class="bb-collapsed-title">Building Blocks: Digital Design Fundamentals</div>
+        <div class="bb-collapsed-course-tag">ECE 2020</div>
+        <div class="bb-collapsed-sub">hover to explore the stack</div>
+        <div class="bb-divider-hint">
+          <span>Logic</span>
+          <div class="bb-divider-line"></div>
+          <span>Physical</span>
+        </div>
+      </div>
+      <div class="bb-expanded" id="bb-expanded"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/assets/js/site.js"></script>
+<script>
+  // Data injected server-side from _data/chain.js and _data/site.js —
+  // single source of truth, no separate hardcoded JS file to keep in sync.
+  const COURSES = {{ site.courses | dump | safe }};
+  const TIERS = {{ site.tiers | dump | safe }};
+  const FOUNDATIONS_CHAIN = {{ chain | dump | safe }}.map(t => ({ ...t, id: t.slug }));
+
+  function getFoundationIndex(id) { return FOUNDATIONS_CHAIN.findIndex(t => t.id === id); }
+  function getTakenCourses() { return JSON.parse(localStorage.getItem('ece-courses') || '[]'); }
+  function setTakenCourses(arr) { localStorage.setItem('ece-courses', JSON.stringify(arr)); }
+  function isUnlocked(block) {
+    const taken = getTakenCourses();
+    if (!taken.length) return true;
+    return taken.includes(block.course);
+  }
+</script>
+<script>
+// ── Course picker ──
+let pickerSelections = [];
+
+function renderPickerCourses() {
+  const wrap = document.getElementById('picker-courses');
+  wrap.innerHTML = '';
+  COURSES.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'picker-course' + (pickerSelections.includes(c.id) ? ' selected' : '');
+    el.style.setProperty('--pc', c.color);
+    el.innerHTML = `
+      <div class="picker-check">${pickerSelections.includes(c.id) ? '✓' : ''}</div>
+      <div class="picker-course-info">
+        <div class="picker-course-name">${c.name} <span style="font-weight:400;color:var(--muted);font-size:11px">— ${c.desc}</span></div>
+        <div class="picker-course-unlocks">unlocks: ${c.unlocks}</div>
+      </div>
+    `;
+    el.onclick = () => {
+      const i = pickerSelections.indexOf(c.id);
+      if (i >= 0) pickerSelections.splice(i, 1); else pickerSelections.push(c.id);
+      renderPickerCourses();
+    };
+    wrap.appendChild(el);
+  });
+}
+
+function revealScene() {
+  setTakenCourses(pickerSelections);
+  document.getElementById('picker').classList.add('fading');
+  setTimeout(() => {
+    document.getElementById('picker').style.display = 'none';
+    document.getElementById('main-scene').classList.add('revealed');
+    // Building Blocks panel builds lazily on first hover/tap — nothing to render upfront
+    updateNavStatus();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, 450);
+}
+
+function skipPicker() {
+  pickerSelections = [];
+  revealScene();
+}
+
+function reopenPicker() {
+  document.getElementById('picker').style.display = 'flex';
+  document.getElementById('picker').classList.remove('fading');
+  document.getElementById('main-scene').classList.remove('revealed');
+  pickerSelections = getTakenCourses();
+  renderPickerCourses();
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function updateNavStatus() {
+  const taken = getTakenCourses();
+  document.getElementById('nav-status').textContent = taken.length
+    ? taken.map(id => COURSES.find(c=>c.id===id)?.name.replace('ECE ','')).join(' · ')
+    : 'all topics shown';
+}
+
+// ── Building Blocks expandable panel ──
+let bbExpanded = false;
+let bbBuilt = false;
+let bbHoverTimer = null;
+const BB_HOVER_DELAY = 400; // ms — must hover this long before it expands
+
+function buildBBNodes() {
+  const wrap = document.getElementById('bb-expanded');
+  wrap.innerHTML = '';
+
+  // Vertical card stack: logic tier first (top), physical tier last (bottom) — matches the original look.
+  const tierOrder = ['logic', 'physical'];
+  tierOrder.forEach((tierId, ti) => {
+    const tier = TIERS.find(t => t.id === tierId);
+    const blocks = FOUNDATIONS_CHAIN.filter(b => b.tier === tierId).slice().reverse();
+
+    const divider = document.createElement('div');
+    divider.className = 'tier-divider';
+    divider.innerHTML = `<span class="tier-divider-label" style="color:${tierId==='logic'?'var(--purple)':'var(--accent)'}">${tier.name} — ${tier.desc}</span><div class="tier-divider-line-full"></div>`;
+    wrap.appendChild(divider);
+
+    blocks.forEach((b, bi) => {
+      if (bi > 0) {
+        const conn = document.createElement('div');
+        conn.className = 'tier-connector';
+        conn.innerHTML = '<div class="tier-connector-line"></div>';
+        wrap.appendChild(conn);
+      }
+      const unlocked = isUnlocked(b);
+      const courseInfo = COURSES.find(c => c.id === b.course);
+      const el = document.createElement(b.built ? 'a' : 'div');
+      el.className = 'block-card' + (b.built ? ' built' : ' unbuilt') + (!unlocked ? ' locked-by-course' : '');
+      el.style.setProperty('--bc', tierId === 'logic' ? 'var(--purple)' : 'var(--accent)');
+      if (b.built) el.href = `/${b.id}/`;
+      el.onclick = (e) => {
+        e.stopPropagation();
+        if (!b.built) { e.preventDefault(); showToast(`${b.name} — coming soon`); }
+      };
+      el.innerHTML = `
+        <div class="block-num">${getFoundationIndex(b.id) + 1}</div>
+        <div class="block-info">
+          <div class="block-name">${b.name}</div>
+          <div class="block-short">${b.short}</div>
+        </div>
+        <span class="block-course-tag" style="color:${courseInfo?.color || 'var(--muted)'};border-color:color-mix(in srgb,${courseInfo?.color || 'var(--border)'} 35%,var(--border))">${courseInfo?.name.replace('ECE ','') || ''}</span>
+        <span class="block-status ${b.built ? 'ready' : 'soon'}">${b.built ? 'ready' : 'soon'}</span>
+      `;
+      wrap.appendChild(el);
+    });
+  });
+
+  const ground = document.createElement('div');
+  ground.className = 'bb-ground-marker';
+  ground.textContent = '⏚ ground — start here';
+  wrap.appendChild(ground);
+
+  bbBuilt = true;
+}
+
+function scheduleExpandBB() {
+  cancelExpandBB();
+  bbHoverTimer = setTimeout(() => { expandBB(); }, BB_HOVER_DELAY);
+}
+function cancelExpandBB() {
+  if (bbHoverTimer) { clearTimeout(bbHoverTimer); bbHoverTimer = null; }
+  if (bbExpanded) collapseBB();
+}
+
+function expandBB() {
+  if (!bbBuilt) buildBBNodes();
+  bbExpanded = true;
+  document.getElementById('bb-block').classList.add('expanded');
+}
+function collapseBB() {
+  bbExpanded = false;
+  document.getElementById('bb-block').classList.remove('expanded');
+}
+function handleBBClick(e) {
+  if (e.target.closest('.block-card')) return; // node click already navigates
+  if (!bbExpanded) {
+    cancelExpandBB();
+    expandBB();
+    return;
+  }
+  window.location.href = '/gates/';
+}
+
+function showComingSoonMb(name) { showToast(`${name} — coming soon`); }
+
+function scrollToBB() {
+  const block = document.getElementById('bb-block');
+  if (block) {
+    block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(expandBB, 400);
+  }
+}
+
+function showToast(msg) {
+  const ex = document.getElementById('toast');
+  if (ex) ex.remove();
+  const t = document.createElement('div');
+  t.id = 'toast';
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border2);color:var(--muted2);font-family:var(--font-mono);font-size:12px;padding:10px 18px;border-radius:10px;z-index:999;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+// ── Init ──
+pickerSelections = getTakenCourses();
+renderPickerCourses();
+
+// If courses already set from before, skip picker automatically? 
+// Per spec: picker always appears first, sequential reveal. So always show it.
+</script>
+</body>
+</html>
