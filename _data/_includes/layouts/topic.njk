@@ -1,0 +1,81 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ title }} — ECE Ref</title>
+<link rel="stylesheet" href="{{ "/assets/css/style.css" | url }}">
+</head>
+<body>
+<nav>
+  <div style="display:flex;align-items:center;gap:12px;padding:0 20px;height:48px;background:var(--bg1);border-bottom:1px solid var(--border)">
+    <a class="nav-logo" href="{{ "/" | url }}">ECE·REF</a>
+    <span style="font-family:var(--font-mono);font-size:10px;color:var(--border2)">|</span>
+    <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">Building Blocks</span>
+    <a href="{{ "/math/" | url }}" style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--amber);text-decoration:none;display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid rgba(245,166,35,.3);border-radius:6px;background:rgba(245,166,35,.06)">∑ Math reference</a>
+  </div>
+</nav>
+
+<div class="topic-wrap">
+  <div class="topic-header">
+    <div class="topic-breadcrumb">
+      <a href="{{ "/" | url }}">Building Blocks</a>
+      <span>›</span>
+      <span>{{ title }}</span>
+    </div>
+    <h1 class="topic-title">{{ title }}</h1>
+    <p class="topic-subtitle">{{ subtitle }}</p>
+    <div class="topic-tags">
+      {% if course %}<span class="tag" style="color:var(--c0);border-color:color-mix(in srgb,var(--c0) 40%,transparent)">{{ course }}</span>{% endif %}
+      {% for t in tags %}<span class="tag" style="color:var(--muted);border-color:var(--border)">{{ t }}</span>{% endfor %}
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <div class="tab active" onclick="showTab('concept', this)">Concept</div>
+    {% if hasSim %}<div class="tab" onclick="showTab('sim', this)">Simulator</div>{% endif %}
+    {% if quiz %}<div class="tab tab-quiz" onclick="showTab('quiz', this)">Quiz</div>{% endif %}
+  </div>
+
+  <div class="panel active" id="panel-concept">
+    {{ content | safe }}
+  </div>
+
+  {% if hasSim %}
+  <div class="panel" id="panel-sim">
+    <div class="sim-wrap">
+      <div class="sim-toolbar"><span class="sim-toolbar-title">{{ simTitle | default("SIMULATOR") }}</span></div>
+      <div class="sim-body" id="sim-mount">
+        <!-- populated by {{ slug }}.sim.js -->
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if quiz %}
+  <div class="panel" id="panel-quiz">
+    <div class="quiz-score" id="quiz-score">0 / 0 correct</div>
+    <div id="quiz-container"></div>
+    <button class="btn btn-accent" onclick="resetQuiz()" style="margin-top:16px">Reset quiz</button>
+  </div>
+  {% endif %}
+</div>
+
+<script src="{{ "/assets/js/site.js" | url }}"></script>
+{% if hasSim %}<script src="{{ simPath }}"></script>{% endif %}
+{% set adjacent = chain | chainAdjacent(order) %}
+<script>
+  window.CHAIN_DATA = {
+    currentId: "{{ slug }}",
+    basePath: "{{ "/" | url }}",
+    chain: {{ chain | dump | safe }},
+    prev: {{ adjacent.prev | dump | safe }},
+    next: {{ adjacent.next | dump | safe }},
+  };
+  initTopicPage();
+  {% if quiz %}buildQuiz({{ quiz | dump | safe }});{% endif %}
+</script>
+</body>
+</html>
