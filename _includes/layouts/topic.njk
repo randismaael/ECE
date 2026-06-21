@@ -33,6 +33,28 @@
     </div>
   </div>
 
+  {% if simInline %}
+
+  <div class="topic-content">
+    {{ content | safe }}
+  </div>
+
+  {% if quiz %}
+  <details class="quiz-drop">
+    <summary class="quiz-drop-trigger">
+      <strong>Want to quiz yourself?</strong>
+      <span class="quiz-drop-arrow">›</span>
+    </summary>
+    <div class="quiz-drop-body">
+      <div class="quiz-score" id="quiz-score">0 / 0 correct</div>
+      <div id="quiz-container"></div>
+      <button class="btn btn-accent" onclick="resetQuiz()" style="margin-top:16px">Reset quiz</button>
+    </div>
+  </details>
+  {% endif %}
+
+  {% else %}
+
   <div class="topic-nav">
     <div class="tab active" onclick="showTab('concept', this)">Concept</div>
     {% if hasSim %}<div class="tab" onclick="showTab('sim', this)">Simulator</div>{% endif %}
@@ -60,6 +82,8 @@
     <div id="quiz-container"></div>
     <button class="btn btn-accent" onclick="resetQuiz()" style="margin-top:16px">Reset quiz</button>
   </div>
+  {% endif %}
+
   {% endif %}
 </div>
 

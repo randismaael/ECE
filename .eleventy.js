@@ -7,9 +7,13 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("content/foundations/*.sim.js");
   eleventyConfig.addPassthroughCopy("content/math/*.sim.js");
 
-  // Watch sim files and data for live reload even though they're not templated
+  // Watch assets for live reload (CSS/JS changes)
   eleventyConfig.addWatchTarget("assets/");
-  eleventyConfig.addWatchTarget("content/**/*.sim.js");
+
+  // Serve passthrough files from source during dev — prevents passthrough globs from
+  // pre-marking content subdirectories in chokidar before the template glob runs,
+  // which would cause .md files to be silently skipped by the file watcher.
+  eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
 
   // JSON dump filter — used to embed frontmatter data as inline JS objects in <script> tags
   eleventyConfig.addFilter("dump", (obj) => JSON.stringify(obj ?? null));

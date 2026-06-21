@@ -1,7 +1,27 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -C /Users/randismaael/Documents/Projects/ece-ref-11ty rm --cached CLAUDE.md)"
+      "Bash(git -C /Users/randismaael/Documents/Projects/ece-ref-11ty rm --cached CLAUDE.md)",
+      "Bash(npx @11ty/eleventy)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(npx @11ty/eleventy --serve --port=8989)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8989/switches/)",
+      "Bash(chromium-cli screenshot *)",
+      "Bash(which chromium *)",
+      "Read(//Applications/**)",
+      "Read(//tmp/**)",
+      "Read(//private/tmp/**)",
+      "Bash(python3 -c ' *)",
+      "Bash(sips -c 700 1280 --cropOffset 1450 0 /tmp/switches-fresh.png --out /tmp/or-crop.png)",
+      "Bash(sips -c 900 1280 --cropOffset 900 0 /tmp/switches-fresh.png --out /tmp/or-full.png)",
+      "Bash(sips -c 900 1280 --cropOffset 850 0 /tmp/switches-fixed.png --out /tmp/both-sims.png)",
+      "Bash(pkill -f \"eleventy --serve\")",
+      "Bash(node -e \"const c = require\\('/Users/randismaael/Documents/Projects/ece-ref-11ty/node_modules/chokidar'\\); console.log\\(c.watch.toString\\(\\).slice\\(0,100\\)\\)\")",
+      "Bash(DEBUG=Eleventy:FileSystemSearch,Eleventy:EleventyWatchTargets npx @11ty/eleventy --watch)",
+      "Bash(kill %1)",
+      "Bash(wait)",
+      "Bash(node -e ' *)"
     ]
   }
 }

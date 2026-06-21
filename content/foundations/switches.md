@@ -1,11 +1,11 @@
 ---
 title: Ideal Switches
-subtitle: Before transistors, before logic — the basic primitive every digital circuit is built from. Two terminals, two states.
+subtitle: The core logic every computer depends on
 order: 0
 course: ECE 2020
 tags: ["Foundations", "Module 2"]
 hasSim: true
-simTitle: SWITCH SIMULATOR
+simInline: true
 quiz:
   - q: "What is the ideal resistance of a switch in the ON state?"
     opts: ["1 Ω", "0 Ω exactly", "Depends on current", "∞"]
@@ -29,40 +29,47 @@ quiz:
     exp: "Both inputs trying to drive the output at once creates an indeterminate ('crowbarred') logic level — something circuit design must avoid."
 ---
 
-Any digital circuit, no matter how complex, comes down to one question: **is there a connection between two points, or not?** That's a switch.
+<div style="margin-top: -32px"></div>
 
-The setup: a circuit has a **supply** rail (V = Vcc, this is logic **1**) and a **ground** rail (V = 0, this is logic **0**). The output of any circuit ends up connected to either supply or ground, depending on the inputs — and switches are what decide which one.
+One of the most basic components of digital circuits are switches. If you create a basic circuit consisting of a power source (Vcc), a switch, and a ground rail, you can model basic logic. When the switch is **closed**, current flows from Vcc to the output, propagating a **1**. When **open**, the only path is to ground, propagating a **0**. So, our basic circuit can be in one of two states:
 
-<div class="switch-demo">
-  <div class="switch-state-card">
-    <div class="switch-state-title on">● SWITCH IS ON</div>
-    <div class="switch-facts">
-      <strong>Resistance:</strong> low, R<sub>ON</sub> ≈ 0<br>
-      <strong>Current:</strong> flows freely N1 → N2<br>
-      <strong>Ideal value:</strong> R<sub>ON</sub> = 0 exactly
-    </div>
-  </div>
-  <div class="switch-state-card">
-    <div class="switch-state-title off">○ SWITCH IS OFF</div>
-    <div class="switch-facts">
-      <strong>Resistance:</strong> high, R<sub>OFF</sub> = ∞<br>
-      <strong>Current:</strong> no flow<br>
-      <strong>Ideal value:</strong> R<sub>OFF</sub> = ∞ exactly
-    </div>
-  </div>
-</div>
+<div style="margin-top: 8px"></div>
 
-<div class="key-facts">
-  <h4>Key Facts</h4>
-  <div class="key-fact"><span class="key-fact-label">Voltage map</span><span class="key-fact-val">Supply / Vcc / VDD → logic 1. Ground / GND → logic 0</span></div>
-  <div class="key-fact"><span class="key-fact-label">Series = AND</span><span class="key-fact-val">Current flows only if S1 AND S2 are both ON</span></div>
-  <div class="key-fact"><span class="key-fact-label">Parallel = OR</span><span class="key-fact-val">Current flows if S1 OR S2 (or both) are ON</span></div>
-  <div class="key-fact"><span class="key-fact-label">Crowbar problem</span><span class="key-fact-val">If two switches both connect to the output at once with conflicting values, the output is indeterminate — must be avoided by design</span></div>
-</div>
+  - **Closed (ON):** current flows freely, resistance ≈ 0
+  - **Open (OFF):** no current flows, resistance = ∞
 
-<div style="background:var(--bg1);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;">
-  <h4 style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;">Why this matters</h4>
-  <div style="font-size:13px;color:var(--muted2);line-height:1.75;">
-    Series/parallel switch behavior is the entire reason logic gates work the way they do. An AND gate is, underneath, just two switches in series. An OR gate is two switches in parallel. <strong style="color:var(--text)">You already understand gate logic — you just haven't connected it to switches yet.</strong> The next topic (nMOS/pMOS) shows how an ideal switch gets built electronically, with a third terminal to control it.
-  </div>
-</div>
+<div style="margin-top: 16px"></div>
+
+<div id="sim-single-switch"></div>
+
+<div style="margin-top: 16px"></div>
+
+## Modeling Logic with Switches 
+Depending on how you place the switches in the circuit, you can model one of two core logic behaviors:
+- **Series switches → AND:** Placing two switches end-to-end in series models **AND** logic. Current can only flow if **both** are closed.
+
+<div style="margin-top: 16px"></div>
+
+<div id="sim-series"></div>
+
+<div style="margin-top: 16px"></div>
+
+- **Parallel switches → OR:** Placing two switches side-by-side in parallel models **OR** logic. Current flows if **either** switch is closed, since there's at least one path from supply to output.
+
+<div style="margin-top: 16px"></div>
+
+<div id="sim-parallel"></div>
+
+<div style="margin-top: 16px"></div>
+
+## Why this matters
+
+All computer logic can be broken down to **AND** or **OR** logic, which is perfectly modeled by *ideal* switches. This is the core that everything from here builds on!
+
+<div style="margin-top: 16px"></div>
+
+***The next topic (nMOS/pMOS) shows how (and why) an ideal switch gets built electronically.***
+
+*Please note that the stack builds upward, from simplest to most complex, so scroll up for next page.*
+
+<div style="margin-top: -16px"></div>
